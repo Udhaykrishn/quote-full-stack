@@ -79,24 +79,24 @@ export const Plans: React.FC = () => {
 
                                     <Divider />
 
-                                    <BlockStack gap="300">
-                                        <InlineStack gap="300" align="start" blockAlign="center">
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                             <Icon source={CheckIcon} tone="base" />
                                             <Text as="span" variant="bodyMd">50 quotes / month</Text>
-                                        </InlineStack>
-                                        <InlineStack gap="300" align="start" blockAlign="center">
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                             <Icon source={CheckIcon} tone="base" />
                                             <Text as="span" variant="bodyMd">Basic email notifications</Text>
-                                        </InlineStack>
-                                        <InlineStack gap="300" align="start" blockAlign="center">
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                             <Icon source={XIcon} tone="critical" />
                                             <Text as="span" variant="bodyMd" tone="subdued">Corporate branding</Text>
-                                        </InlineStack>
-                                        <InlineStack gap="300" align="start" blockAlign="center">
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                             <Icon source={XIcon} tone="critical" />
                                             <Text as="span" variant="bodyMd" tone="subdued">Priority support</Text>
-                                        </InlineStack>
-                                    </BlockStack>
+                                        </div>
+                                    </div>
 
                                     <Box paddingBlockStart="200">
                                         <Button
@@ -136,24 +136,24 @@ export const Plans: React.FC = () => {
 
                                         <Divider />
 
-                                        <BlockStack gap="300">
-                                            <InlineStack gap="300" align="start" blockAlign="center">
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">Unlimited quotes</Text>
-                                            </InlineStack>
-                                            <InlineStack gap="300" align="start" blockAlign="center">
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">No branding</Text>
-                                            </InlineStack>
-                                            <InlineStack gap="300" align="start" blockAlign="center">
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">Priority support</Text>
-                                            </InlineStack>
-                                            <InlineStack gap="300" align="start" blockAlign="center">
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">Custom email templates</Text>
-                                            </InlineStack>
-                                        </BlockStack>
+                                            </div>
+                                        </div>
 
                                         <Box paddingBlockStart="200">
                                             <Button
