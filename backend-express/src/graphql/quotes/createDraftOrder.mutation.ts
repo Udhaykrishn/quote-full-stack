@@ -1,4 +1,4 @@
-export const CREATE_DRAFT_ORDER_MUTATION_MINIMAL = `
+export const CREATE_DRAFT_ORDER_MUTATION_FULL = `
   mutation draftOrderCreate($input: DraftOrderInput!) {
     draftOrderCreate(input: $input) {
       draftOrder {
@@ -34,3 +34,19 @@ export const CREATE_DRAFT_ORDER_MUTATION_MINIMAL = `
     }
   }
 `;
+
+export const CREATE_DRAFT_ORDER_MUTATION_MINIMAL = `
+      mutation CreateDraftOrder($input: DraftOrderInput!) {
+        draftOrderCreate(input: $input) {
+          draftOrder {
+            id
+            name
+            invoiceUrl
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    `;

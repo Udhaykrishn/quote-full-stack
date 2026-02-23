@@ -1,39 +1,46 @@
 import { z } from "zod";
+import { logger } from "@/utils/logger";
 
 const envSchema = z.object({
-    PORT: z.coerce.number().default(3001),
-    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+    MONGODB_URI: z.string().url(),
+    MONGODB_NAME: z.string().min(1),
+    PORT: z.coerce
+        .number()
+        .int()
+        .min(1)
+        .max(65535),
 
-    // Shopify Config
-    SHOPIFY_API_KEY: z.string().min(1, "SHOPIFY_API_KEY is required"),
-    SHOPIFY_API_SECRET: z.string().min(1, "SHOPIFY_API_SECRET is required"),
-    SHOPIFY_SCOPES: z.string().default("write_products"),
+    SHOPIFY_API_KEY: z.string().min(1),
+    SHOPIFY_API_SECRET: z.string().min(1),
+    NODE_ENV: z.enum(["development", "production"]),
 
-    // App Config
-    HOST_NAME: z.string().min(1, "HOST_NAME is required"),
-    HOST_SCHEMA: z.enum(["http", "https"]).default("https"),
+    SHOPIFY_SCOPES: z
+        .string()
+        .transform((val) => val.split(",").map(s => s.trim()))
+        .refine(arr => arr.length > 0, {
+            message: "SHOPIFY_SCOPES must have at least one scope",
+        }),
+    HOST_NAME: z.string().min(4),
+    HOST_SCHEMA: z.enum(["http", "https"]),
+    NGROK_AUTHTOKEN: z.string().min(1),
 
-    // Ngrok (Optional for local dev)
-    NGROK_AUTHTOKEN: z.string().optional(),
-    NGROK_DOMAIN: z.string().optional(),
+    NGROK_DOMAIN: z.string().min(1).optional(),
 
-    // MongoDB
-    MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
-    MONGODB_NAME: z.string().min(1, "MONGODB_NAME is required"),
-
-    // SMTP (Email)
+    SMTP_HOST: z.string().optional(),
+    SMTP_PORT: z.string().optional(),
     SMTP_USER: z.string().optional(),
     SMTP_PASS: z.string().optional(),
+    SMTP_SECURE: z.string().optional(),
     SMTP_FROM: z.string().optional(),
 });
 
-const _env = envSchema.safeParse(process.env);
+const parsed = envSchema.safeParse(process.env);
 
-if (!_env.success) {
-    console.error("❌ Invalid environment variables:");
-    console.error(_env.error.format());
+if (!parsed.success) {
+    logger.error("❌ Invalid environment variables");
+    logger.error(JSON.stringify(parsed.error.format(), null, 2));
     process.exit(1);
 }
 
-export const env = _env.data;
-export type Env = z.infer<typeof envSchema>;
+export const env = parsed.data;
+
