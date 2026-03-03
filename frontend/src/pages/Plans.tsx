@@ -64,7 +64,7 @@ export const Plans: React.FC = () => {
                 )}
 
                 <Layout.Section>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px', alignItems: 'start' }}>
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 items-start">
                         {/* Starter Plan */}
                         <Box width="100%">
                             <Card>
@@ -79,20 +79,20 @@ export const Plans: React.FC = () => {
 
                                     <Divider />
 
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                    <div className="flex flex-col gap-3">
+                                        <div className="flex items-center justify-start gap-3">
                                             <Icon source={CheckIcon} tone="base" />
                                             <Text as="span" variant="bodyMd">50 quotes / month</Text>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                        <div className="flex items-center justify-start gap-3">
                                             <Icon source={CheckIcon} tone="base" />
                                             <Text as="span" variant="bodyMd">Basic email notifications</Text>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                        <div className="flex items-center justify-start gap-3">
                                             <Icon source={XIcon} tone="critical" />
                                             <Text as="span" variant="bodyMd" tone="subdued">Corporate branding</Text>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                        <div className="flex items-center justify-start gap-3">
                                             <Icon source={XIcon} tone="critical" />
                                             <Text as="span" variant="bodyMd" tone="subdued">Priority support</Text>
                                         </div>
@@ -115,10 +115,10 @@ export const Plans: React.FC = () => {
 
                         {/* Pro Plan */}
                         <Box width="100%" position="relative">
-                            <div style={{ position: 'absolute', top: '-12px', right: '16px', zIndex: 1 }}>
+                            <div className="absolute -top-3 right-4 z-[1]">
                                 <Badge tone="success">Most popular</Badge>
                             </div>
-                            <div style={{ border: '2px solid var(--p-color-border-emphasis)', borderRadius: 'var(--p-border-radius-300)', overflow: 'hidden' }}>
+                            <div className="border-2 border-[var(--p-color-border-emphasis)] rounded-[var(--p-border-radius-300)] overflow-hidden">
                                 <Card>
                                     <BlockStack gap="500">
                                         <BlockStack gap="200">
@@ -136,20 +136,20 @@ export const Plans: React.FC = () => {
 
                                         <Divider />
 
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                        <div className="flex flex-col gap-3">
+                                            <div className="flex items-center justify-start gap-3">
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">Unlimited quotes</Text>
                                             </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                            <div className="flex items-center justify-start gap-3">
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">No branding</Text>
                                             </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                            <div className="flex items-center justify-start gap-3">
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">Priority support</Text>
                                             </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px' }}>
+                                            <div className="flex items-center justify-start gap-3">
                                                 <Icon source={CheckIcon} tone="success" />
                                                 <Text as="span" variant="bodyMd" fontWeight="semibold">Custom email templates</Text>
                                             </div>
