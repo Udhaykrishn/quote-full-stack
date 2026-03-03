@@ -9,6 +9,24 @@
   }
 }
 
+/* Custom Scrollbar for Browser Mockup */
+.preview-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.preview-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.preview-scrollbar::-webkit-scrollbar-thumb {
+  background: #d2d5d8;
+  border-radius: 10px;
+}
+
+.preview-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #bfc3c7;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
