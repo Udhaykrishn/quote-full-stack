@@ -19,7 +19,7 @@ import { MerchantController } from "./controllers/merchant.controller";
 import { SettingsController } from "./controllers/settings.controller";
 import { DraftOrderController } from "./controllers/draft-order.controller";
 import { PlanController } from "./controllers/plan.controller";
-import { FormRepository } from "./repositories/form.repository";
+import { FormRepository } from "./repositorys/forms";
 import { FormService } from "./services/form.service";
 import { FormController } from "./controllers/form.controller";
 import type { IMerchantRepository, IQuoteRepository, IPlanRepository, IFormRepository } from "./interfaces";
