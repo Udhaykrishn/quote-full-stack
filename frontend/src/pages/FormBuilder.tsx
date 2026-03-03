@@ -620,7 +620,7 @@ export const FormBuilder: React.FC = () => {
                                     </div>
 
                                     {/* Form Content Area */}
-                                    <div className="p-10 md:p-8">
+                                    <div className="p-10 md:p-8 max-h-[500px] overflow-y-auto preview-scrollbar">
                                         {/* Progress Section */}
                                         <div className="mb-8">
                                             <div className="flex justify-between items-center mb-3">
