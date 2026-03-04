@@ -79,4 +79,11 @@ export class QuoteRepository
     async countByMerchant(shop: string): Promise<number> {
         return await Quote.countDocuments({ shop });
     }
+
+    async countConvertedByMerchant(shop: string): Promise<number> {
+        return await Quote.countDocuments({
+            shop,
+            draftOrderId: { $exists: true, $ne: "" }
+        });
+    }
 }

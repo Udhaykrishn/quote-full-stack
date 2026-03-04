@@ -21,4 +21,6 @@ export const TYPES = {
     IFormRepository: Symbol.for("IFormRepository"),
     IFormService: Symbol.for("IFormService"),
     FormController: Symbol.for("FormController"),
+    IDashboardService: Symbol.for("IDashboardService"),
+    DashboardController: Symbol.for("DashboardController"),
 };

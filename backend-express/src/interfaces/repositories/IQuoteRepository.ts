@@ -7,4 +7,5 @@ export interface IQuoteRepository {
     findById(id: string): Promise<QuoteDocument | null>;
     updateStatus(id: string, status: IQuote["status"]): Promise<QuoteDocument | null>;
     countByMerchant(shop: string): Promise<number>;
+    countConvertedByMerchant(shop: string): Promise<number>;
 }
