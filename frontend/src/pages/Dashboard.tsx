@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Page,
     Layout,
@@ -19,30 +19,10 @@ import {
     PlanIcon,
     CalendarIcon
 } from '@shopify/polaris-icons';
-import { getDashboardStats } from '../api/dashboard';
-import type { DashboardStats } from '../api/dashboard';
+import { useDashboardStats } from '../hooks/useDashboardStats';
 
 export const Dashboard: React.FC = () => {
-    const [stats, setStats] = useState<DashboardStats | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                setLoading(true);
-                const data = await getDashboardStats();
-                setStats(data);
-            } catch (err) {
-                setError('Failed to load dashboard statistics');
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchStats();
-    }, []);
+    const { data: stats, isLoading: loading, error } = useDashboardStats();
 
     if (error) {
         return (
@@ -51,7 +31,7 @@ export const Dashboard: React.FC = () => {
                     <Layout.Section>
                         <Card>
                             <Text as="p" variant="bodyMd" tone="critical">
-                                {error}
+                                Failed to load dashboard statistics. Please try again later.
                             </Text>
                         </Card>
                     </Layout.Section>
