@@ -33,10 +33,20 @@ const shopify = shopifyApp({
                         amount: 14.99,
                         currencyCode: "USD",
                         interval: BillingInterval.Every30Days,
-                        replacementBehavior: BillingReplacementBehavior.ApplyImmediately,
                     },
                 ]
             },
+            "ULTIMATE": {
+                test: true,
+                replacementBehavior: BillingReplacementBehavior.ApplyImmediately,
+                lineItems: [
+                    {
+                        amount: 49.99,
+                        currencyCode: "USD",
+                        interval: BillingInterval.Every30Days,
+                    },
+                ]
+            }
         }
     },
     auth: {

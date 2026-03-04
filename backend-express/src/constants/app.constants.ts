@@ -46,12 +46,20 @@ export const PLAN_DEFAULTS = {
     FREE: {
         QUOTE_LIMIT: 50,
         REMOVE_BRANDING: false,
-        EMAIL_NOTIFICATIONS: false
+        EMAIL_NOTIFICATIONS: false,
+        TRIAL_DAYS: 0
     },
     PRO: {
         QUOTE_LIMIT: 10000,
         REMOVE_BRANDING: true,
-        EMAIL_NOTIFICATIONS: true
+        EMAIL_NOTIFICATIONS: true,
+        TRIAL_DAYS: 7
+    },
+    ULTIMATE: {
+        QUOTE_LIMIT: 1000000, // Unlimited practically
+        REMOVE_BRANDING: true,
+        EMAIL_NOTIFICATIONS: true,
+        TRIAL_DAYS: 14
     }
 };
 

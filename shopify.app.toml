@@ -1,9 +1,9 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
+client_id = "0c2e1131d9c2cd7a64dda76dedd42e00"
+name = "merchant-quote"
 application_url = "https://tarpon-social-simply.ngrok-free.app"
-client_id = "7b5c4a91230b06d573dacb0b7b2abd5a"
 embedded = true
-name = "request-quote-form"
 
 [build]
 automatically_update_urls_on_dev = false
@@ -14,19 +14,19 @@ api_version = "2026-01"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-optional_scopes = []
-scopes = "write_products,write_app_proxy,write_draft_orders,read_customers"
+scopes = "write_app_proxy,read_customers,write_draft_orders,write_products"
+optional_scopes = [ ]
 use_legacy_install_flow = false
 
 [auth]
 redirect_urls = [
-  "https://tarpon-social-simply.ngrok-free.app/api/auth/callback",
+  "https://tarpon-social-simply.ngrok-free.app/api/auth/callback"
 ]
 
 [app_proxy]
-prefix = "apps"
-subpath = "request-quote"
 url = "https://tarpon-social-simply.ngrok-free.app/api"
+subpath = "request-quote"
+prefix = "apps"
 
 [pos]
 embedded = true
@@ -35,6 +35,6 @@ embedded = true
 name = "Show quote globally"
 type = "boolean"
 
-[shop.metafields.app.show_on_all.access]
-admin = "merchant_read_write"
-storefront = "public_read"
+  [shop.metafields.app.show_on_all.access]
+  admin = "merchant_read_write"
+  storefront = "public_read"

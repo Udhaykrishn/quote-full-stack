@@ -25,6 +25,10 @@ const planSchema = new Schema<IPlan>(
         permissions: [{
             type: String,
         }],
+        trialDays: {
+            type: Number,
+            default: 0,
+        },
         isActive: {
             type: Boolean,
             default: true,

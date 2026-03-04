@@ -14,6 +14,7 @@ export interface IPlan {
     billingReset: boolean;
     permissions: string[];
     features?: IPlanFeatures;
+    trialDays: number;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;

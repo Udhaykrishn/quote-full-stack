@@ -11,6 +11,7 @@ const plans = [
         price: 0.00,
         quoteLimit: 50,
         billingReset: false,
+        trialDays: 0,
         permissions: [
             PlanAction.QUOTE_CREATE,
             PlanAction.QUOTE_UPDATE,
@@ -21,9 +22,28 @@ const plans = [
     },
     {
         name: PlanType.PRO,
-        price: 9.99,
+        price: 14.99,
         quoteLimit: 10000,
         billingReset: true,
+        trialDays: 7,
+        permissions: [
+            PlanAction.QUOTE_CREATE,
+            PlanAction.QUOTE_UPDATE,
+            PlanAction.QUOTE_SEND,
+            PlanAction.DRAFT_ORDER_CREATE,
+            PlanAction.SETTINGS_UPDATE,
+            PlanAction.CUSTOM_FORM_BUILDER,
+            PlanAction.REMOVE_BRANDING,
+            PlanAction.MERCHANT_EMAIL_NOTIFICATIONS
+        ],
+        isActive: true
+    },
+    {
+        name: PlanType.ULTIMATE,
+        price: 49.99,
+        quoteLimit: 1000000,
+        billingReset: true,
+        trialDays: 14,
         permissions: [
             PlanAction.QUOTE_CREATE,
             PlanAction.QUOTE_UPDATE,
@@ -49,6 +69,8 @@ async function seedPlans() {
                 logger.info(`Updating existing plan: ${planData.name}`);
                 existingPlan.permissions = planData.permissions;
                 existingPlan.quoteLimit = planData.quoteLimit;
+                existingPlan.trialDays = planData.trialDays;
+                existingPlan.price = planData.price as any;
                 await existingPlan.save();
             } else {
                 logger.info(`Creating new plan: ${planData.name}`);
