@@ -12,6 +12,7 @@ export type { ISettingsService, ISettings } from "./services/ISettingsService"
 export type { IWebhookRegistry } from "./services/IWebhookRegistry"
 export type { IDraftOrderService } from "./services/IDraftOrderService"
 export type { IUsageService } from "./services/IUsageService"
+export type { IDashboardService, IDashboardStats } from "./services/IDashboardService"
 export type { IFormService } from "./services/IFormService"
 
 export type { PaginatedResult, PaginationOptions } from "./IPagination"

@@ -10,4 +10,5 @@ export interface IPlanService {
     getQuoteLimit(shop: string): Promise<number>;
     hasFeature(shop: string, feature: keyof IPlanFeatures): Promise<boolean>;
     createSubscription(session: any, planName: string): Promise<string>;
+    handleCallback(shop: string, charge_id?: string, plan?: string): Promise<string>;
 }

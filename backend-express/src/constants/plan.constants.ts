@@ -1,6 +1,7 @@
 export enum PlanType {
     FREE = "FREE",
     PRO = "PRO",
+    ULTIMATE = "ULTIMATE",
 }
 
 export const PLAN_TYPE_VALUES = Object.values(PlanType);

@@ -1,9 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { TitleBar, NavMenu } from '@shopify/app-bridge-react';
+import { Frame, Loading } from '@shopify/polaris';
+import { useIsFetching } from '@tanstack/react-query';
 
 export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const location = useLocation();
+    const isFetching = useIsFetching();
 
     const getTitle = (path: string) => {
         switch (path) {
@@ -18,7 +21,8 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
     };
 
     return (
-        <>
+        <Frame>
+            {isFetching > 0 && <Loading />}
             <NavMenu>
                 <a href="/" rel="home">Dashboard</a>
                 <a href="/settings">Settings</a>
@@ -31,6 +35,6 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
             <TitleBar title={getTitle(location.pathname)} />
 
             {children}
-        </>
+        </Frame>
     );
 };
