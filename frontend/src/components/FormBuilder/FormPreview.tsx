@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Badge, Box, Divider, Icon, BlockStack } from '@shopify/polaris';
+import { Text, Badge, Divider, Icon, BlockStack } from '@shopify/polaris';
 import { ImageIcon } from '@shopify/polaris-icons';
 import type { IForm } from '../../api/forms';
 
