@@ -19,11 +19,13 @@ import { MerchantController } from "./controllers/merchant.controller";
 import { SettingsController } from "./controllers/settings.controller";
 import { DraftOrderController } from "./controllers/draft-order.controller";
 import { PlanController } from "./controllers/plan.controller";
-import { FormRepository } from "./repositories/form.repository";
+import { FormRepository } from "./repositorys/forms";
 import { FormService } from "./services/form.service";
 import { FormController } from "./controllers/form.controller";
+import { DashboardService } from "./services/dashboard.service";
+import { DashboardController } from "./controllers/dashboard.controller";
 import type { IMerchantRepository, IQuoteRepository, IPlanRepository, IFormRepository } from "./interfaces";
-import type { IMerchantService, IQuoteService, IPlanService, IEmailService, ISettingsService, IDraftOrderService, IWebhookRegistry, IUsageService, IFormService } from "./interfaces";
+import type { IMerchantService, IQuoteService, IPlanService, IEmailService, ISettingsService, IDraftOrderService, IWebhookRegistry, IUsageService, IFormService, IDashboardService } from "./interfaces";
 
 const container = new Container();
 
@@ -53,5 +55,7 @@ container.bind<PlanController>(TYPES.PlanController).to(PlanController).inSingle
 container.bind<IFormRepository>(TYPES.IFormRepository).to(FormRepository).inSingletonScope();
 container.bind<IFormService>(TYPES.IFormService).to(FormService).inSingletonScope();
 container.bind<FormController>(TYPES.FormController).to(FormController).inSingletonScope();
+container.bind<IDashboardService>(TYPES.IDashboardService).to(DashboardService).inSingletonScope();
+container.bind<DashboardController>(TYPES.DashboardController).to(DashboardController).inSingletonScope();
 
 export { container };

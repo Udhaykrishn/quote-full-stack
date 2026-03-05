@@ -14,6 +14,7 @@ import settingsRouter from "./routes/settings.routes";
 import draftOrderRouter from "./routes/draft-order.routes";
 import planRouter from "./routes/plan.routes";
 import formRouter from "./routes/form.routes";
+import dashboardRouter from "./routes/dashboard.routes";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,6 +59,7 @@ export class App {
         this.app.use("/api/draft-orders", draftOrderRouter);
         this.app.use("/api/plans", planRouter);
         this.app.use("/api/forms", formRouter);
+        this.app.use("/api/dashboard", dashboardRouter);
 
         // Frontend Fallback (SPA)
         // Must be last

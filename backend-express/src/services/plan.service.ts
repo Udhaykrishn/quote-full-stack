@@ -1,11 +1,12 @@
 import { injectable, inject } from "inversify";
 import { TYPES } from "@/types";
-import type { IPlanRepository, IMerchantRepository } from "@/interfaces";
+import type { IPlanRepository, IMerchantRepository, IMerchantService } from "@/interfaces";
 import type { IPlanService } from "@/interfaces";
 import type { PlanDocument, IPlan, IPlanFeatures, MerchantDocument } from "@/types";
 import { PlanType, PLAN_DEFAULTS, ERROR_MESSAGES } from "@/constants";
 import { shopify } from "@/config/shopify.config";
 import { env } from "@/validations/env.validation";
+import { logger } from "@/utils/logger";
 
 @injectable()
 export class PlanService implements IPlanService {
@@ -23,7 +24,7 @@ export class PlanService implements IPlanService {
 
     constructor(
         @inject(TYPES.IPlanRepository) private planRepository: IPlanRepository,
-        @inject(TYPES.IMerchantRepository) private merchantRepository: IMerchantRepository
+        @inject(TYPES.IMerchantService) private merchantService: IMerchantService
     ) { }
 
     async getPlanByName(name: string): Promise<PlanDocument | null> {
@@ -43,7 +44,7 @@ export class PlanService implements IPlanService {
     }
 
     async getMerchantPlan(shop: string): Promise<PlanDocument | null> {
-        const merchant = await this.merchantRepository.findMerchantByShop(shop);
+        const merchant = await this.merchantService.getMerchantByShop(shop);
         if (!merchant) return null;
 
         if (merchant.planId) {
@@ -54,7 +55,7 @@ export class PlanService implements IPlanService {
     }
 
     async checkQuoteLimit(shop: string): Promise<{ allowed: boolean; message?: string }> {
-        const merchant = await this.merchantRepository.findMerchantByShop(shop);
+        const merchant = await this.merchantService.getMerchantByShop(shop);
         if (!merchant) {
             return { allowed: false, message: ERROR_MESSAGES.MERCHANT.NOT_FOUND };
         }
@@ -104,10 +105,14 @@ export class PlanService implements IPlanService {
 
         const returnUrl = `https://${env.HOST_NAME}/api/plans/callback?shop=${session.shop}&plan=${planName}`;
 
+        if (planName === "FREE") {
+            return returnUrl;
+        }
+
         const client = new shopify.api.clients.Graphql({ session });
         const response = await client.request(`
-            mutation AppSubscriptionCreate($name: String!, $returnUrl: URL!, $lineItems: [AppSubscriptionLineItemInput!]!, $test: Boolean) {
-                appSubscriptionCreate(name: $name, returnUrl: $returnUrl, lineItems: $lineItems, test: $test) {
+            mutation AppSubscriptionCreate($name: String!, $returnUrl: URL!, $lineItems: [AppSubscriptionLineItemInput!]!, $test: Boolean, $trialDays: Int) {
+                appSubscriptionCreate(name: $name, returnUrl: $returnUrl, lineItems: $lineItems, test: $test, trialDays: $trialDays) {
                     userErrors {
                         field
                         message
@@ -123,6 +128,7 @@ export class PlanService implements IPlanService {
                 name: plan.name,
                 returnUrl,
                 test: true,
+                trialDays: plan.trialDays || 0,
                 lineItems: [{
                     plan: {
                         appRecurringPricingDetails: {
@@ -139,16 +145,49 @@ export class PlanService implements IPlanService {
             const errorMessages = errors.map((e: any) => e.message).join(", ");
             console.log("error in the backend is: ", errorMessages);
 
-            // Check if the error is due to Custom App billing restriction
-            if (errorMessages.includes("Custom apps cannot use the Billing API")) {
-                console.warn("Billing API is not supported for Custom Apps. Bypassing billing for development/testing.");
-                // Append a dummy charge_id to simulate a successful callback from Shopify
-                return `${returnUrl}&charge_id=custom_app_bypass`;
-            }
-
             throw new Error(errors[0].message);
         }
 
+
         return response.data?.appSubscriptionCreate?.confirmationUrl;
+    }
+
+    async handleCallback(shop: string, charge_id?: string, plan?: string): Promise<string> {
+        if (!shop) {
+            throw new Error("Missing shop parameter");
+        }
+
+        // Only update DB if they approved the charge (indicated by charge_id)
+        if (charge_id && plan) {
+            logger.info(`Processing billing approval for ${shop}: Plan=${plan}, ChargeId=${charge_id}`);
+
+            const planDoc = await this.getPlanByName(plan);
+            if (planDoc) {
+                await this.merchantService.createOrUpdateMerchant({
+                    shop,
+                    planId: planDoc._id
+                });
+                logger.info(`Successfully upgraded ${shop} to ${planDoc.name}`);
+            } else {
+                logger.error(`Billing Callback: Plan ${plan} not found in database.`);
+            }
+        } else if (!charge_id && plan !== "FREE") {
+            logger.warn(`Billing Callback: User potentially declined or cancelled plan ${plan} for ${shop}`);
+        } else if (plan === "FREE") {
+            // Handle direct downgrade to FREE
+            const planDoc = await this.getPlanByName("FREE");
+            if (planDoc) {
+                await this.merchantService.createOrUpdateMerchant({
+                    shop,
+                    planId: planDoc._id
+                });
+                logger.info(`Merchant ${shop} downgraded to FREE.`);
+            }
+        }
+
+        const appUrl = `https://${shop}/admin/apps/${env.SHOPIFY_API_KEY}/plans`;
+        logger.info(`Generated redirect URL for ${shop}: ${appUrl}`);
+
+        return appUrl;
     }
 }
