@@ -57,8 +57,19 @@ export const Quotes: React.FC = () => {
             primaryAction={{
                 content: 'Export CSV',
                 icon: ExportIcon,
-                onAction: () => {
-                    window.open("/api/quotes/export", "_blank");
+                onAction: async () => {
+                    try {
+                        const { exportQuotesCSV } = await import('../api/quotes');
+                        await exportQuotesCSV({ 
+                            q: queryValue, 
+                            status: statusFilter?.length ? statusFilter[0] : undefined,
+                            date: dateFilter 
+                        });
+                        if (typeof shopify !== 'undefined') shopify.toast.show('Quotes exported successfully');
+                    } catch (error) {
+                        console.error("Export error", error);
+                        if (typeof shopify !== 'undefined') shopify.toast.show('Failed to export quotes', { isError: true });
+                    }
                 }
             }}
         >
