@@ -46,7 +46,7 @@ export const PLAN_DEFAULTS = {
     FREE: {
         QUOTE_LIMIT: 50,
         REMOVE_BRANDING: false,
-        EMAIL_NOTIFICATIONS: false,
+        EMAIL_NOTIFICATIONS: true,
         TRIAL_DAYS: 0
     },
     PRO: {

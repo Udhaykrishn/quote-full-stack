@@ -132,7 +132,7 @@ export class PlanService implements IPlanService {
             variables: {
                 name: plan.name,
                 returnUrl,
-                test: true,
+                test: env.NODE_ENV !== "production",
                 trialDays: plan.trialDays || 0,
                 lineItems: [{
                     plan: {

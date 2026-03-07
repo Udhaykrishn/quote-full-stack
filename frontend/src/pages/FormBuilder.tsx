@@ -17,6 +17,9 @@ import {
     arrayMove,
     sortableKeyboardCoordinates
 } from '@dnd-kit/sortable';
+import { usePlanUsage } from '../hooks/usePlanUsage';
+import { PlanAction } from '../constants/plan.constants';
+import { useNavigate } from 'react-router-dom';
 
 // Extracted Components
 import { FormStep } from '../components/FormBuilder/FormStep';
@@ -29,6 +32,9 @@ export const FormBuilder: React.FC = () => {
     const [expandedStep, setExpandedStep] = useState<string | null>(null);
     const [selectedTab, setSelectedTab] = useState(0);
     const [previewStepIndex, setPreviewStepIndex] = useState(0);
+    const navigate = useNavigate();
+    const { hasPermission, isLoading: isPlanLoading } = usePlanUsage();
+    const canEdit = hasPermission(PlanAction.CUSTOM_FORM_BUILDER);
 
     const tabs = [
         { id: 'builder', content: 'Form Builder', accessibilityLabel: 'Form Builder', panelID: 'builder-panel' },
@@ -43,6 +49,7 @@ export const FormBuilder: React.FC = () => {
     const { data: initialData, isLoading, error } = useQuery({
         queryKey: ['formConfig'],
         queryFn: getForm,
+        enabled: canEdit
     });
 
     useEffect(() => {
@@ -140,8 +147,30 @@ export const FormBuilder: React.FC = () => {
         }
     };
 
-    if (isLoading || !formState) return <Page><Spinner size="large" /></Page>;
-    if (error) return <Page><Banner tone="critical">Failed to load form builder.</Banner></Page>;
+    if (isPlanLoading) return <Page><Spinner size="large" /></Page>;
+
+    if (!canEdit) {
+        return (
+            <Page title="Custom Form Builder">
+                <Layout>
+                    <Layout.Section>
+                        <Banner
+                            tone="warning"
+                            title="Pro Plan Feature"
+                            action={{ content: 'View Plans', onAction: () => navigate('/plans') }}
+                        >
+                            <p>The Custom Form Builder is only available on our Pro plans. Please upgrade to unlock this feature.</p>
+                        </Banner>
+                    </Layout.Section>
+                </Layout>
+            </Page>
+        );
+    }
+
+    if (isLoading) return <Page><Spinner size="large" /></Page>;
+    if (error) return <Page><Banner tone="critical">Failed to load form settings</Banner></Page>;
+
+    if (!formState) return <Page><Spinner size="large" /></Page>;
 
     return (
         <Page
@@ -167,6 +196,7 @@ export const FormBuilder: React.FC = () => {
                                                 sensors={sensors}
                                                 handleDragEnd={handleDragEnd}
                                                 addField={addField}
+                                                readOnly={false}
                                             />
                                         ))}
                                         <Box paddingBlockStart="400">

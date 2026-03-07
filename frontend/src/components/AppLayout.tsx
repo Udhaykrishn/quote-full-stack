@@ -3,10 +3,13 @@ import { useLocation } from 'react-router-dom';
 import { TitleBar, NavMenu } from '@shopify/app-bridge-react';
 import { Frame, Loading } from '@shopify/polaris';
 import { useIsFetching } from '@tanstack/react-query';
+import { usePlanUsage } from '../hooks/usePlanUsage';
+import { PlanAction } from '../constants/plan.constants';
 
 export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const location = useLocation();
     const isFetching = useIsFetching();
+    const { hasPermission } = usePlanUsage();
 
     const getTitle = (path: string) => {
         switch (path) {
@@ -28,7 +31,7 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
                 <a href="/settings">Settings</a>
                 <a href='/form-builder'>Form Builder</a>
                 <a href='/quotes'>Quotes</a>
-                <a href='/draft-orders'>Draft Orders</a>
+                {hasPermission(PlanAction.DRAFT_ORDER_CREATE) && <a href='/draft-orders'>Draft Orders</a>}
                 <a href='/plans'>Plans & Billing</a>
             </NavMenu>
 
